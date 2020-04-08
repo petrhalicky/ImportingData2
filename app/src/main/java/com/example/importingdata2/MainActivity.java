@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         CopyFilesTask cp = new CopyFilesTask(this, folder, toPath);
         cp.execute();
 
-        //sftp
         SendFileTask sf = new SendFileTask(Environment.getExternalStorageDirectory().getAbsolutePath() + "/log.from.app", Settings.Secure.ANDROID_ID);
         sf.execute();
     }
