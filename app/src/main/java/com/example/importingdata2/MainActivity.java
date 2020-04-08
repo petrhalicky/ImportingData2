@@ -22,38 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSION_REQUSTE_STORAGE = 1;
     private static final int MY_PERMISSION_REQUSTE_INTERNET = 2;
     private static final int MY_PERMISSION_REQUSTE_PHONE = 3;
-    private static final String TAG = "Chilkat";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUSTE_STORAGE);
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUSTE_STORAGE);
-            }
-        }
-
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.INTERNET)){
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, MY_PERMISSION_REQUSTE_INTERNET);
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, MY_PERMISSION_REQUSTE_INTERNET);
-            }
-        }
-
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.MODIFY_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.MODIFY_PHONE_STATE)){
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.MODIFY_PHONE_STATE}, MY_PERMISSION_REQUSTE_PHONE);
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.MODIFY_PHONE_STATE}, MY_PERMISSION_REQUSTE_PHONE);
-            }
-        }
-        */
 
         checkPermissionAndRunRequest(Manifest.permission.WRITE_EXTERNAL_STORAGE, MY_PERMISSION_REQUSTE_STORAGE);
         checkPermissionAndRunRequest(Manifest.permission.INTERNET, MY_PERMISSION_REQUSTE_INTERNET);
@@ -111,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
                         //all right, do nothing
                     } else {
-                        Toast.makeText(this, "No internet permission granted!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "No phone_stats permission granted!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

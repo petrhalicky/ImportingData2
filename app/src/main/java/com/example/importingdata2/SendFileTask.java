@@ -58,32 +58,8 @@ public class SendFileTask extends AsyncTask {
             ChannelSftp sftp = (ChannelSftp) channel;
 
             File finalFile = new File(path);
-
-            /*
-            do{
-                if(finalFile.isDirectory()){
-                    File[] list = finalFile.listFiles();
-                    finalFile = list[0];
-                }
-            } while(finalFile.isDirectory());
-             */
-
-            /*for(File file : finalFile.listFiles()){
-                Log.i("JSCH", "File sending " + file.getAbsolutePath());
-
-                sftp.put(new FileInputStream(file), file.getName());
-            }*/
-
             String zipFile = new SimpleDateFormat("yyMMdd").format(Calendar.getInstance().getTime()) + id + ".zip";
-            /*String[] files = new String[finalFile.listFiles().length];
-            for(File file : finalFile.listFiles()){
-                Log.i("JSCH", "File adding " + file.getAbsolutePath());
-                files[files.length] = file.getAbsolutePath();
-            }
-            Log.i("JSCH", "Finishing list of files to zip");*/
-
             File zipFinish = new File(path + "/" + zipFile);
-            //zip(files, zipFinish.getAbsolutePath());
             zip(finalFile.listFiles(), zipFinish.getAbsolutePath());
 
             Log.i("JSCH", "Files zipped to: " + zipFinish.getAbsolutePath());
@@ -92,9 +68,6 @@ public class SendFileTask extends AsyncTask {
 
             Log.i("JSCH", "File sending " + zipFinish.getAbsolutePath());
 
-            //Log.i("JSCH", "File sending " + finalFile.getAbsolutePath());
-
-            //sftp.put(new FileInputStream(finalFile), finalFile.getName());
             sftp.exit();
             sftp.disconnect();
             session.disconnect();
@@ -155,34 +128,11 @@ public class SendFileTask extends AsyncTask {
     }
 
     private void zip(String[] _files, String zipFileName){
-        try {
-            BufferedInputStream origin = null;
-            ZipOutputStream out = new ZipOutputStream(
-                    new BufferedOutputStream(
-                            new FileOutputStream(
-                                    zipFileName)));
+        File[] files = new File[_files.length];
 
-            byte data[] = new byte[BUFFER];
+        for(String file : _files) files[files.length] = new File(file);
 
-            for(String file : _files){
-                Log.v("Compress", "Adding file: " + file);
-
-                origin = new BufferedInputStream(
-                        new FileInputStream(
-                                new File(file)), BUFFER);
-
-                ZipEntry entry = new ZipEntry(file.substring(file.lastIndexOf("/") + 1));
-                out.putNextEntry(entry);
-                int count;
-
-                while((count = origin.read(data, 0, BUFFER)) != -1){
-                    out.write(data, 0, count);
-                }
-                origin.close();
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        zip(files, zipFileName);
     }
 
     /* usage
@@ -206,8 +156,6 @@ public class SendFileTask extends AsyncTask {
                     FileOutputStream fos = new FileOutputStream(
                             new File(_targetLocation + entry.getName()));
 
-                    //for(int c = zin.read(); c != -1; c = zin.read())
-                        //fos.write(c);
                     int count;
                     while((count = zin.read(data, 0, BUFFER)) != -1)
                         fos.write(data, 0, BUFFER);
