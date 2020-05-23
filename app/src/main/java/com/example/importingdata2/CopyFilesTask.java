@@ -72,20 +72,24 @@ public class CopyFilesTask extends AsyncTask {
 
             new File(toPath).mkdirs();
             boolean res = true;
-            for (String file : files)
-                if(!(new File(toPath + "/" + file).exists())){
+            for (String file : files){
+                String targetFile = file;
+                if(file.equalsIgnoreCase("bundle.bundle"))
+                    targetFile = ".bundle";
+                if(!(new File(toPath + "/" + targetFile).exists())){
                     if (file.contains("."))
                         res &= copyAsset(assetManager,
                                 fromAssetPath + "/" + file,
-                                toPath + "/" + file);
+                                toPath + "/" + targetFile);
                     else {
                         res &= copyAssetFolder(assetManager,
                                 fromAssetPath + "/" + file,
-                                toPath + "/" + file);
+                                toPath + "/" + targetFile);
                         actualCount++;
                         publishProgress();
                     }
                 }
+            }
             return res;
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,17 +103,18 @@ public class CopyFilesTask extends AsyncTask {
             new File(toPath).mkdirs();
             int res = Math.min(stopIndex, files.length);
             String file = "";
-            for(int i = startFromIndex; i < (Math.min(stopIndex, files.length)); i++)
+            for (int i = startFromIndex; i < (Math.min(stopIndex, files.length)); i++){
                 file = files[i];
-            if(!(new File(toPath + "/" + file).exists())){
-                if (file.contains("."))
-                    copyAsset(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
-                else
-                    copyAssetFolder(assetManager,
-                            fromAssetPath + "/" + file,
-                            toPath + "/" + file);
+                if (!(new File(toPath + "/" + file).exists())) {
+                    if (file.contains("."))
+                        copyAsset(assetManager,
+                                fromAssetPath + "/" + file,
+                                toPath + "/" + file);
+                    else
+                        copyAssetFolder(assetManager,
+                                fromAssetPath + "/" + file,
+                                toPath + "/" + file);
+                }
             }
             return res;
         } catch (Exception e) {

