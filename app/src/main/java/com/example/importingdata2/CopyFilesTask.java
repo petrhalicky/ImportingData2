@@ -76,7 +76,7 @@ public class CopyFilesTask extends AsyncTask {
                 String targetFile = file;
                 if(file.equalsIgnoreCase("bundle.bundle"))
                     targetFile = ".bundle";
-                if(!(new File(toPath + "/" + targetFile).exists())){
+                if(true){
                     if (file.contains("."))
                         res &= copyAsset(assetManager,
                                 fromAssetPath + "/" + file,
